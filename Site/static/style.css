@@ -1,5 +1,5 @@
 body {
-    background-color: #f0f4f8;
+    background-image: url("images/2.png");
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
@@ -10,7 +10,12 @@ body {
 }
 
 h1 {
-    color: #333;
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+h1 a {
+    color: #2d32c0;
     margin-bottom: 30px;
 }
 
@@ -41,7 +46,7 @@ input[type="file"] {
 }
 
 button {
-    background-color: #0008ff;
+    background-color: #040cec;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -52,13 +57,13 @@ button {
 }
 
 button:hover {
-    background-color: #0033ff;
+    background-color: #0e019b;
 }
 
 .custom-file-upload {
     display: inline-block;
     padding: 12px 25px;
-    background-color: #000dff;
+    background-color: #000aca;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -76,7 +81,7 @@ button:hover {
 
 /* Efeito hover para o botão customizado */
 .custom-file-upload:hover {
-    background-color: #0026ff;
+    background-color: #0600b2;
 }
 
 @media (max-width: 480px) {
