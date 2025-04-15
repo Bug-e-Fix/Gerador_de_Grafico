@@ -3,79 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Plano Cartesiano de Tarefas</title>
-    <style>
-        body {
-            
-            background-color: #f0f4f8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .upload-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        input[type="file"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        @media (max-width: 480px) {
-            .upload-container {
-                padding: 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Bem-vindo ao Gerador de Plano Cartesiano</h1>
     <div class="upload-container">
         <form action="/upload" method="post" enctype="multipart/form-data">
-            <label for="file">Selecione o arquivo Excel:</label>
-            <input type="file" id="file" name="file" accept=".xlsx" required>
+            <!-- Botão customizado com span para exibir o nome do arquivo -->
+            <label class="custom-file-upload">
+                <input type="file" id="file" name="file" accept=".xlsx" required>
+                <span id="file-name">Selecione o arquivo Excel</span>
+            </label>
+    
+            <label for="tarefas">Nome da coluna de Tarefas:</label>
+            <input type="text" id="tarefas" name="tarefas" placeholder="Ex: tarefas" required>
+    
+            <label for="urgencia">Nome da coluna de Urgência:</label>
+            <input type="text" id="urgencia" name="urgencia" placeholder="Ex: urgência" required>
+    
+            <label for="importancia">Nome da coluna de Importância:</label>
+            <input type="text" id="importancia" name="importancia" placeholder="Ex: importância" required>
+            
             <button type="submit">Gerar Gráfico</button>
         </form>
     </div>
+    
+    <!-- Inclua esse script antes de fechar a tag </body> -->
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileNameSpan = document.getElementById('file-name');
+        
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                // Pega o nome do arquivo selecionado
+                fileNameSpan.textContent = fileInput.files[0].name;
+            } else {
+                fileNameSpan.textContent = "Selecione o arquivo Excel";
+            }
+        });
+    </script>    
 </body>
 </html>

@@ -31,23 +31,20 @@ def upload_file():
     except Exception as e:
         return mensagem_erro(f"Erro ao ler o arquivo Excel: {str(e)}")
 
+    # Normaliza os nomes das colunas do DataFrame
     df.columns = [col.strip().lower() for col in df.columns]
 
-    col_map = {
-        'tarefas': None,
-        'urgência': None,
-        'importância': None
-    }
+    # Recupera os nomes informados pelo usuário (em minúsculas para facilitar a comparação)
+    col_tarefas = request.form.get('tarefas', '').strip().lower()
+    col_urgencia = request.form.get('urgencia', '').strip().lower()
+    col_importancia = request.form.get('importancia', '').strip().lower()
 
-    for col in df.columns:
-        for key in col_map:
-            if key in col:
-                col_map[key] = col
+    # Verifica se as colunas informadas existem no arquivo
+    if not all(col in df.columns for col in [col_tarefas, col_urgencia, col_importancia]):
+        return mensagem_erro('Uma ou mais colunas informadas não foram encontradas no arquivo.')
 
-    if None in col_map.values():
-        return mensagem_erro('As colunas necessárias (Tarefas, Urgência, Importância) não foram encontradas.')
-
-    df = df[[col_map['tarefas'], col_map['urgência'], col_map['importância']]].dropna().reset_index(drop=True)
+    # Seleciona e renomeia as colunas para padrão
+    df = df[[col_tarefas, col_urgencia, col_importancia]].dropna().reset_index(drop=True)
     df.columns = ['Tarefas', 'Urgência', 'Importância']
     df['ID'] = df.index + 1
 
@@ -76,12 +73,13 @@ def criar_grafico(df):
         'Baixa Urgência / Baixa Importância': 'gray'
     }
 
+    # Adiciona um pequeno jitter para evitar sobreposição dos pontos
     df['Urgência_jitter'] = df['Urgência'] + np.random.uniform(-0.05, 0.05, size=len(df))
     df['Importância_jitter'] = df['Importância'] + np.random.uniform(-0.05, 0.05, size=len(df))
 
     fig = go.Figure()
 
-    # Linhas dos quadrantes
+    # Linhas de divisão dos quadrantes
     fig.add_shape(
         type="line", 
         x0=5, y0=-100, x1=5, y1=100, 
@@ -93,6 +91,7 @@ def criar_grafico(df):
         line=dict(color="black", width=2, dash="dash")
     )
 
+    # Plota cada tarefa
     for _, row in df.iterrows():
         fig.add_trace(go.Scatter(
             x=[row['Urgência_jitter']],
@@ -105,6 +104,7 @@ def criar_grafico(df):
             showlegend=True
         ))
 
+    # Adiciona traces invisíveis para as legendas dos quadrantes
     for quadrante, cor in cores.items():
         fig.add_trace(go.Scatter(
             x=[None],
@@ -113,7 +113,7 @@ def criar_grafico(df):
             marker=dict(size=12, color=cor),
             legendgroup=quadrante,
             showlegend=True,
-            name=f"{quadrante}"
+            name=quadrante
         ))
 
     fig.update_layout(
