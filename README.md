@@ -8,9 +8,7 @@ Bem-vindo(a) ao **Gerador de Gráfico**! Este projeto tem como objetivo facilita
 
 Abaixo está um exemplo de **Plano Cartesiano de Tarefas** criado com o Gerador de Gráfico, ilustrando uma matriz de Urgência vs. Importância:
 
-![Exemplo de Gráfico Gerado](./images/grafico-exemplo.png)
-
-> *Observação*: Substitua o caminho acima pela URL ou caminho real da imagem no seu repositório.
+![Exemplo de Gráfico Gerado](Site/static/images/grafico-exemplo.png)
 
 ---
 
@@ -18,15 +16,13 @@ Abaixo está um exemplo de **Plano Cartesiano de Tarefas** criado com o Gerador 
 
 Esta é a tela inicial do projeto, onde você poderá selecionar seu arquivo Excel e definir quais colunas deseja utilizar para gerar o gráfico. Em seguida, basta clicar em **"Gerar Gráfico"** para visualizar o resultado:
 
-![Exemplo de Gráfico Gerado](./images/tela-inicial-exemplo.png)
+![Exemplo de Gráfico Gerado](Site/static/images/tela-inicial-exemplo.png)
 
-> *Observação*: Da mesma forma, substitua o caminho acima pela URL ou caminho real da imagem no seu repositório.
-
----
+--
 
 ## ⚙️ Funcionalidades
 
-- **Geração de diferentes tipos de gráficos** (linha, barra, pizza, dispersão, etc.) ✨  
+- **Geração de diferentes tipos de gráficos** ✨  
 - **Interface amigável** para entrada de dados 🧩  
 - **Personalização de cores e estilos** dos gráficos 🎨  
 - **Exportação de gráficos** em formatos de imagem (PNG, JPG, etc.) 🏷️  
@@ -37,9 +33,7 @@ Esta é a tela inicial do projeto, onde você poderá selecionar seu arquivo Exc
 
 - **HTML**  
 - **CSS**  
-- **JavaScript**  
-- **[Biblioteca de Gráficos]** (ex.: [Chart.js](https://www.chartjs.org/), [D3.js](https://d3js.org/), etc.)
-
+- **Python**  
 ---
 
 ## 🚀 Instalação e Execução
@@ -71,40 +65,5 @@ Siga os passos abaixo para executar o projeto localmente:
 5. Clique em **"Exportar"** para salvar o gráfico em formato de imagem se desejar.
 
 ---
-
-## 🤝 Contribuição
-
-Contribuições são **muito bem-vindas**! Fique à vontade para abrir uma [issue](../../issues) ou enviar um [pull request](../../pulls).
-
-1. Faça um **fork** do projeto.
-2. Crie uma nova branch:
-   ```bash
-   git checkout -b feature/minha-feature
-   ```
-3. Faça suas alterações e adicione um commit:
-   ```bash
-   git commit -m "Adicionando minha nova feature"
-   ```
-4. Envie suas alterações para o repositório remoto:
-   ```bash
-   git push origin feature/minha-feature
-   ```
-5. Abra um **pull request** descrevendo suas alterações.
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a [Licença MIT](./LICENSE). Sinta-se à vontade para usar e modificar conforme precisar.
-
----
-
-## 📧 Contato
-
-Para mais informações ou sugestões, entre em contato:
-
-- **Nome**: [Seu Nome]  
-- **E-mail**: [seuemail@example.com]
-
 Aproveite o **Gerador de Gráfico** para criar visualizações incríveis e simplificar a análise dos seus dados! 💡💻
 ```
