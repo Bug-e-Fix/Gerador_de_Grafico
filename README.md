@@ -66,4 +66,3 @@ Siga os passos abaixo para executar o projeto localmente:
 
 ---
 Aproveite o **Gerador de Gráfico** para criar visualizações incríveis e simplificar a análise dos seus dados! 💡💻
-```
