@@ -8,7 +8,7 @@ Bem-vindo(a) ao **Gerador de Gráfico**! Este projeto tem como objetivo facilita
 
 Abaixo está um exemplo de **Plano Cartesiano de Tarefas** criado com o Gerador de Gráfico, ilustrando uma matriz de Urgência vs. Importância:
 
-![Exemplo de Gráfico Gerado](Site/static/images/grafico-exemplo.png)
+![Exemplo de Gráfico Gerado](static/images/grafico-exemplo.png)
 
 ---
 
@@ -16,7 +16,7 @@ Abaixo está um exemplo de **Plano Cartesiano de Tarefas** criado com o Gerador 
 
 Esta é a tela inicial do projeto, onde você poderá selecionar seu arquivo Excel e definir quais colunas deseja utilizar para gerar o gráfico. Em seguida, basta clicar em **"Gerar Gráfico"** para visualizar o resultado:
 
-![Exemplo de Gráfico Gerado](Site/static/images/tela-inicial-exemplo.png)
+![Exemplo de Gráfico Gerado](static/images/tela-inicial-exemplo.png)
 
 --
 
