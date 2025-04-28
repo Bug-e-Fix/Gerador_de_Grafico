@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, render_template
 import pandas as pd
 import numpy as np
@@ -76,15 +75,13 @@ def classificar_quadrante(row):
 
 
 def criar_grafico(df):
-    # 1) Ordem desejada dos quadrantes
     ordem_quadrantes = [
         'Alta Urgência / Alta Importância',   # vermelho
         'Baixa Urgência / Alta Importância',  # azul
-        'Alta Urgência / Baixa Importância',  # amarelo (orange)
+        'Alta Urgência / Baixa Importância',  # amarelo
         'Baixa Urgência / Baixa Importância'  # cinza
     ]
 
-    # 2) Dicionário de cores na mesma ordem
     cores = {
         'Alta Urgência / Alta Importância': 'red',
         'Baixa Urgência / Alta Importância': 'blue',
@@ -92,19 +89,18 @@ def criar_grafico(df):
         'Baixa Urgência / Baixa Importância': 'gray'
     }
 
-    # 3) Aplica jitter para visualização
-    df['Urgência_jitter']     = df['Urgência'] + np.random.uniform(-0.05, 0.05, len(df))
-    df['Importância_jitter']  = df['Importância'] + np.random.uniform(-0.05, 0.05, len(df))
+    df['Urgência_jitter']    = df['Urgência'] + np.random.uniform(-0.05, 0.05, len(df))
+    df['Importância_jitter'] = df['Importância'] + np.random.uniform(-0.05, 0.05, len(df))
 
     fig = go.Figure()
 
-    # 4) Linhas de divisão dos quadrantes
-    fig.add_shape(type="line", x0=5, y0=0,   x1=5,   y1=10.5,
-                  line=dict(color="black", width=2, dash="dash"))
-    fig.add_shape(type="line", x0=0, y0=5,   x1=10.5, y1=5,
-                  line=dict(color="black", width=2, dash="dash"))
+    # Linhas de quadrantes
+    fig.add_shape(type="line", x0=5, y0=0, x1=5, y1=10.5,
+                  line=dict(color="white", width=2, dash="dash"))
+    fig.add_shape(type="line", x0=0, y0=5, x1=10.5, y1=5,
+                  line=dict(color="white", width=2, dash="dash"))
 
-    # 5) Para cada quadrante, primeiro agrupo e depois ploto
+    # Plota as tarefas, na ordem de cor desejada
     for quad in ordem_quadrantes:
         subset = df[df['Quadrante'] == quad]
         for _, row in subset.iterrows():
@@ -118,80 +114,120 @@ def criar_grafico(df):
                     color=cores[quad],
                     line=dict(width=1, color='DarkSlateGrey')
                 ),
-                hovertemplate=(
-                    f"Tarefa: {row['Tarefas']}<br>"
-                    f"Urgência: {row['Urgência']}<br>"
-                    f"Importância: {row['Importância']}<extra></extra>"
-                ),
+                hovertemplate=(f"Tarefa: {row['Tarefas']}<br>"
+                               f"Urgência: {row['Urgência']}<br>"
+                               f"Importância: {row['Importância']}<extra></extra>"),
                 showlegend=True
             ))
 
-    # 6) (Opcional) Se você não quiser repetir a legenda de cada tarefa, basta trocar showlegend=False
-    #    no trace acima e só deixar estes aqui para mostrar o “mapa de cores”:
-
-    for quad in ordem_quadrantes:
-        fig.add_trace(go.Scatter(
-            x=[None], y=[None],
-            mode='markers',
-            marker=dict(size=12, color=cores[quad]),
-            showlegend=True,
-            name=quad
-        ))
-
+    # Layout com fundo transparente e fontes brancas
     fig.update_layout(
         title="Plano Cartesiano de Tarefas",
-        xaxis=dict(title="Urgência",     dtick=1, range=[0, 10.5]),
-        yaxis=dict(title="Importância", dtick=1, range=[0, 10.5]),
-        legend_title="Clique para filtrar",
-        hoverlabel=dict(bgcolor="white", font_size=12),
+        xaxis=dict(
+            title=dict(
+                text="Urgência",
+                font=dict(family="Arial", size=14, color="white")  # Definindo a fonte para o título
+            ),
+            dtick=1,
+            range=[0, 10.5],
+            tickfont=dict(family="Arial", size=12, color="white"),  # Definindo a fonte dos ticks
+            gridcolor="rgba(255,255,255,0.2)",
+            zerolinecolor="rgba(255,255,255,0.2)"
+        ),
+        yaxis=dict(
+            title=dict(
+                text="Importância",
+                font=dict(family="Arial", size=14, color="white")  # Definindo a fonte para o título
+            ),
+            dtick=1,
+            range=[0, 10.5],
+            tickfont=dict(family="Arial", size=12, color="white"),  # Definindo a fonte dos ticks
+            gridcolor="rgba(255,255,255,0.2)",
+            zerolinecolor="rgba(255,255,255,0.2)"
+        ),
+        legend=dict(
+            title="Clique para filtrar",
+            font=dict(color="white"),
+            title_font=dict(color="white")
+        ),
+        hoverlabel=dict(
+            font_color="white",
+            bgcolor="rgba(0,0,0,0.7)"
+        ),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="white"),
         margin=dict(l=50, r=50, t=50, b=50)
     )
-
+    
     return fig
 
 
-
 def gerar_html_resultado(plot_html):
-    # Botão de download usa API do Plotly
     return f"""
     <html>
     <head>
         <title>Resultado</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="/static/images/icone.png">
         <style>
             body {{
                 font-family: Arial, sans-serif;
                 padding: 20px;
-                background-color: #f7f9fb;
+                background-image: url("/static/images/2.png");
+                background-size: cover;
+                background-position: center;
+                color: white;
             }}
-            .voltar {{
-                margin-top: 20px;
+            h2 {{
+                display: flex;
+                align-items: center;
+            }}
+            /* ícone ao lado do título */
+            h2 img {{
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
             }}
             #grafico {{
                 width: 100%;
                 height: 700px;
             }}
-            button {{
-                margin-bottom: 10px;
+            #grafico .plotly-graph-div {{
+                background: transparent !important;
+            }}
+            .actions {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+            }}
+            .btn {{
+                display: inline-block;
                 padding: 8px 16px;
                 font-size: 14px;
+                text-decoration: none;
                 border: none;
                 border-radius: 4px;
-                background-color: #4CAF50;
+                background-color: #007BFF;
                 color: white;
                 cursor: pointer;
             }}
-            button:hover {{
-                background-color: #45a049;
+            .btn:hover {{
+                background-color: #0069d9;
             }}
         </style>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     </head>
     <body>
-        <button onclick="downloadPlot()">⬇ Baixar Gráfico</button>
+        <h2><img src="/static/images/icone.png" alt="Ícone">Gráfico Gerado</h2>
         <div id="grafico">{plot_html}</div>
-        <div class="voltar">
-            <a href="/">⬅ Voltar</a>
+
+        <div class="actions">
+            <button class="btn" onclick="downloadPlot()">⬇ Baixar Gráfico</button>
+            <a href="/" class="btn">⬅ Voltar</a>
         </div>
+
         <script>
             function downloadPlot() {{
                 const gd = document.querySelector('#grafico .plotly-graph-div');
@@ -206,6 +242,7 @@ def gerar_html_resultado(plot_html):
     </body>
     </html>
     """
+
 
 def mensagem_erro(msg):
     return f"""
